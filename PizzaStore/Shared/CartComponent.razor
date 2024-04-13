@@ -8,7 +8,7 @@
             <img src="@pizza.imgURL" alt="pizza">
             <h3>@pizza.title</h3>
             <p>@pizza.compound</p>
-            <h4>@pizza.price</h4>
+            <h4><b>@pizza.price ₽</b></h4>
 
             <button @onclick="()=> AddToCart(pizza)">В корзину</button>
 
@@ -16,20 +16,22 @@
     }
 </div>
 
-@if(orderedPizzas != 0) {
+@if (orderedPizzas != 0)
+{
     <div class="cart">
 
-    <h2>Стоимость корзины: @totalPrice</h2>
+        <h2>Стоимость корзины: @totalPrice ₽</h2>
 
-    <p class="cart-pizzas">
+        <p class="cart-pizzas">
+            <h4>В корзине:</h4>
             @foreach (var pizza in CartList)
             {
-                <p>@pizza.title, </p>
+            <p>@pizza.title, </p>
             }
-    </p>
+        </p>
 
 
-</div>
+    </div>
 }
 
 
@@ -39,19 +41,27 @@
         text-align: center;
         font-size: 60px;
         font-weight: 600;
+        margin-bottom: 48px
     }
 
     .cards {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         text-align: center;
         padding: 0 100px;
+        gap: 30px;
+
+        max-width: 1600px;
+
+        margin: 0 auto;
     }
 
     .card {
-        max-width: 400px;
+        width: 400px;
+        height: 600px;
+
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -60,31 +70,40 @@
         text-align: center;
         padding: 12px 24px;
         border-radius: 8px;
-        height: 600px;
+        
         margin-bottom: 24px;
     }
 
-    .card button {
-        padding: 6px 20px;
-        border: none;
-        border-radius: 8px;
-        background: orange;
-        color: white;
-    }
+        .card button {
+            padding: 6px 30px;
+            border: none;
+            border-radius: 8px;
+            background: orange;
+            color: white;
+        }
+
+        .card button:hover {
+            background: brown;
+        }
 
         .card img {
             max-width: 300px;
         }
 
         .card p {
-            word-break: break-all;
+            word-break: normal;
         }
 
-        .cart-pizzas {
-            display: flex;
-            flex-wrap: wrap;
-            margin-right: 8px;
-        }
+    .cart-pizzas {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+        gap: 8px;
+    }
+
+    .cart p {
+        font-size: 20px;
+    }
 </style>
 
 @code {
@@ -95,9 +114,9 @@
 
     public void AddToCart(Pizza pizza)
     {
-        
-            CartList.Add(pizza);
-            totalPrice += pizza.price;
-            orderedPizzas++;
+
+        CartList.Add(pizza);
+        totalPrice += pizza.price;
+        orderedPizzas++;
     }
 }

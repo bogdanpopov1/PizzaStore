@@ -1,0 +1,83 @@
+﻿@page "/newpizza"
+@using PizzaStore.Data
+@inject db_connection db_connection
+
+<h1>Добавить новую пиццу</h1>
+
+<div class="inputs">
+
+    <div>
+
+        <h3>Ссылка на картинку</h3>
+        <input type="text" @bind-value="@imgUR" />
+
+        <h3>Название</h3>
+        <input type="text" @bind-value="@title" />
+
+        <h3>Ингридиенты</h3>
+        <input type="text" @bind-value="@compound" />
+
+        <h3>Цена</h3>
+        <input type="text" @bind-value="@price" />
+
+    </div>
+
+    <button @onclick=AddNewPizza>Добавить</button>
+
+</div>
+
+
+<style>
+
+    h1 {
+        text-align: center;
+        font-size: 60px;
+        font-weight: 600;
+        margin-bottom: 30px;
+    }
+
+    .inputs {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+    }
+
+        .inputs input {
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+    button {
+        padding: 6px 40px;
+        border: none;
+        border-radius: 8px;
+        background: orange;
+        color: white;
+        font-size: 20px;
+    }
+</style>
+
+
+@code {
+    public string title = string.Empty;
+    public string compound = string.Empty;
+    public double price = 0;
+    public string imgUR = string.Empty;
+
+
+    public void AddNewPizza()
+    {
+        if (title != string.Empty && compound != string.Empty && price != 0 && imgUR != string.Empty)
+        {
+            db_connection.pizzas.Add(new Pizza(title, compound, price, imgUR));
+
+            title = string.Empty;
+            compound = string.Empty;
+            price = 0;
+            imgUR = string.Empty;
+        }
+
+    }
+}
