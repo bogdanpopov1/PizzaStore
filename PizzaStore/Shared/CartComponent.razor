@@ -10,29 +10,28 @@
             <p>@pizza.compound</p>
             <h4>@pizza.price</h4>
 
-            <button @onclick="@(()=> AddToCart(@PizzaList.IndexOf(pizza)))">В корзину</button>
+            <button @onclick="()=> AddToCart(pizza)">В корзину</button>
 
         </div>
     }
 </div>
 
-<div class="cart">
+@if(orderedPizzas != 0) {
+    <div class="cart">
 
     <h2>Стоимость корзины: @totalPrice</h2>
 
-    <p>
-        @*@if (CartList.Count > 0)
-        {
-            foreach (var pizza in CartList)
+    <p class="cart-pizzas">
+            @foreach (var pizza in CartList)
             {
-            <p>@pizza.title, </p>
+                <p>@pizza.title, </p>
             }
-
-        }*@
     </p>
 
 
 </div>
+}
+
 
 <style>
 
@@ -65,6 +64,14 @@
         margin-bottom: 24px;
     }
 
+    .card button {
+        padding: 6px 20px;
+        border: none;
+        border-radius: 8px;
+        background: orange;
+        color: white;
+    }
+
         .card img {
             max-width: 300px;
         }
@@ -73,24 +80,24 @@
             word-break: break-all;
         }
 
+        .cart-pizzas {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: 8px;
+        }
 </style>
 
 @code {
     [Parameter] public List<Pizza> PizzaList { get; set; }
-    public List<Pizza> CartList { get; set; }
-
+    public List<Pizza> CartList = new List<Pizza>();
+    public int orderedPizzas = 0;
     public double totalPrice { get; set; }
 
-    public void AddToCart(int index)
+    public void AddToCart(Pizza pizza)
     {
-        foreach (Pizza pizza in PizzaList)
-        {
-            if (PizzaList.IndexOf(pizza) == index)
-            {
-                CartList.Add(pizza);
-                totalPrice += pizza.price;
-            }
-
-        }
+        
+            CartList.Add(pizza);
+            totalPrice += pizza.price;
+            orderedPizzas++;
     }
 }
