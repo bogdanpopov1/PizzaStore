@@ -1,0 +1,96 @@
+﻿@using PizzaStore.Data
+
+<div class="cards">
+    @foreach (var pizza in PizzaList)
+    {
+        <div class="card">
+
+            <img src="@pizza.imgURL" alt="pizza">
+            <h3>@pizza.title</h3>
+            <p>@pizza.compound</p>
+            <h4>@pizza.price</h4>
+
+            <button @onclick="@(()=> AddToCart(@PizzaList.IndexOf(pizza)))">В корзину</button>
+
+        </div>
+    }
+</div>
+
+<div class="cart">
+
+    <h2>Стоимость корзины: @totalPrice</h2>
+
+    <p>
+        @*@if (CartList.Count > 0)
+        {
+            foreach (var pizza in CartList)
+            {
+            <p>@pizza.title, </p>
+            }
+
+        }*@
+    </p>
+
+
+</div>
+
+<style>
+
+    h1 {
+        text-align: center;
+        font-size: 60px;
+        font-weight: 600;
+    }
+
+    .cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        padding: 0 100px;
+    }
+
+    .card {
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        text-align: center;
+        padding: 12px 24px;
+        border-radius: 8px;
+        height: 600px;
+        margin-bottom: 24px;
+    }
+
+        .card img {
+            max-width: 300px;
+        }
+
+        .card p {
+            word-break: break-all;
+        }
+
+</style>
+
+@code {
+    [Parameter] public List<Pizza> PizzaList { get; set; }
+    public List<Pizza> CartList { get; set; }
+
+    public double totalPrice { get; set; }
+
+    public void AddToCart(int index)
+    {
+        foreach (Pizza pizza in PizzaList)
+        {
+            if (PizzaList.IndexOf(pizza) == index)
+            {
+                CartList.Add(pizza);
+                totalPrice += pizza.price;
+            }
+
+        }
+    }
+}
